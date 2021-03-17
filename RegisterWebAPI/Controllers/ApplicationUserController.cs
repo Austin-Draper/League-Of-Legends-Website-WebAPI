@@ -79,5 +79,21 @@ namespace RegisterWebAPI.Controllers
                 return BadRequest(new { message = "Username or password is incorrect." });
         }
 
+        [HttpDelete("Unsubscribe/{Email}")]
+        //[Route("Unsubscribe/{Email}")]
+        //POST : /api/ApplicationUser/Unsubscribe
+        public async Task<IActionResult> Unsubscribe(string Email)
+        {
+            var user = await _userManager.FindByEmailAsync(Email);
+            if (user.Email != null)
+            {
+                await _userManager.DeleteAsync(user);
+                return Ok();
+            }
+            else
+                return BadRequest(new { message = "Email was not found or is null" });
+            
+        }
+
     }
 }
